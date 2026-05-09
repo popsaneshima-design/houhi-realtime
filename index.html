@@ -63,15 +63,15 @@
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
-// 駅座標（map.png 767x504、画像比0.804）
+// 駅座標（map.png 767x617 を実観察してマーカー位置に合わせた値）
 const STATIONS = [
-  { id: "tateno",      name: "立野",       xR: 0.220, yR: 0.755 },
-  { id: "akamizu",     name: "赤水",       xR: 0.205, yR: 0.560 },
-  { id: "ichinokawa",  name: "市ノ川",     xR: 0.255, yR: 0.460 },
-  { id: "uchinomaki",  name: "内牧",       xR: 0.395, yR: 0.385 },
-  { id: "aso",         name: "阿蘇",       xR: 0.535, yR: 0.380 },
-  { id: "ikoinomura",  name: "いこいの村", xR: 0.640, yR: 0.405 },
-  { id: "miyaji",      name: "宮地",       xR: 0.755, yR: 0.385 },
+  { id: "tateno",      name: "立野",       xR: 0.180, yR: 0.765 },
+  { id: "akamizu",     name: "赤水",       xR: 0.180, yR: 0.582 },
+  { id: "ichinokawa",  name: "市ノ川",     xR: 0.297, yR: 0.446 },
+  { id: "uchinomaki",  name: "内牧",       xR: 0.447, yR: 0.388 },
+  { id: "aso",         name: "阿蘇",       xR: 0.541, yR: 0.388 },
+  { id: "ikoinomura",  name: "いこいの村", xR: 0.658, yR: 0.388 },
+  { id: "miyaji",      name: "宮地",       xR: 0.737, yR: 0.388 },
 ];
 
 const toMin = (h,m) => h*60+m;
@@ -170,20 +170,23 @@ const pickFlavor = (id) => {
   return f[Math.floor(Math.random()*f.length)];
 };
 
-// 区間ごとの経由点（線路の曲線部分）
-// 立野→赤水：山岳ルート（北側復旧ルート）の大カーブ
+// 区間ごとの経由点（線路の曲線部分）— 地図上の実際の路線形状に合わせる
 const LEG_VIA = {
+  // 立野→赤水：山岳・北側復旧ルートの緩やかな西カーブ
   "tateno-akamizu": [
-    { xR: 0.180, yR: 0.700 },
-    { xR: 0.155, yR: 0.660 },
-    { xR: 0.145, yR: 0.620 },
-    { xR: 0.155, yR: 0.585 },
-    { xR: 0.180, yR: 0.570 },
+    { xR: 0.165, yR: 0.730 },
+    { xR: 0.158, yR: 0.685 },
+    { xR: 0.165, yR: 0.640 },
+    { xR: 0.175, yR: 0.610 },
   ],
+  // 赤水→市ノ川：北東に上がる緩い斜め
+  "akamizu-ichinokawa": [
+    { xR: 0.235, yR: 0.515 },
+  ],
+  // 市ノ川→内牧：水平方向に向かいながら緩やかに上がる
   "ichinokawa-uchinomaki": [
-    { xR: 0.290, yR: 0.430 },
-    { xR: 0.330, yR: 0.405 },
-    { xR: 0.365, yR: 0.392 },
+    { xR: 0.343, yR: 0.421 },
+    { xR: 0.394, yR: 0.397 },
   ],
 };
 
