@@ -63,9 +63,9 @@
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
-// 駅座標（map.png 767x617 / ユーザー指摘に基づいて調整）
+// 駅座標（map.png 767x617 / 黒色JR鉄道線をピクセルトレースした実位置）
 const STATIONS = [
-  { id: "tateno",      name: "立野",       xR: 0.137, yR: 0.826 },
+  { id: "tateno",      name: "立野",       xR: 0.130, yR: 0.746 },
   { id: "akamizu",     name: "赤水",       xR: 0.218, yR: 0.543 },
   { id: "ichinokawa",  name: "市ノ川",     xR: 0.248, yR: 0.448 },
   { id: "uchinomaki",  name: "内牧",       xR: 0.404, yR: 0.365 },
@@ -170,13 +170,15 @@ const pickFlavor = (id) => {
   return f[Math.floor(Math.random()*f.length)];
 };
 
-// 区間ごとの経由点（ユーザー指摘の赤線パスに沿った形）
+// 区間ごとの経由点（黒色JR鉄道線のピクセルトレース実測値に基づく）
 const LEG_VIA = {
-  // 立野→赤水：立野から北東へほぼ垂直に上る山岳ルート
+  // 立野→赤水：立野から微かに左に膨らみつつほぼ垂直に上昇、上部で右にカーブして赤水へ
   "tateno-akamizu": [
-    { xR: 0.150, yR: 0.770 },
-    { xR: 0.175, yR: 0.700 },
-    { xR: 0.190, yR: 0.620 },
+    { xR: 0.164, yR: 0.721 },
+    { xR: 0.173, yR: 0.681 },
+    { xR: 0.180, yR: 0.656 },
+    { xR: 0.185, yR: 0.608 },
+    { xR: 0.200, yR: 0.570 },
   ],
   // 赤水→市ノ川：右上への緩いカーブ
   "akamizu-ichinokawa": [
